@@ -18,6 +18,12 @@ footer {
    flex-shrink: 0; 
 }
 
+.emojin{
+   width: 75px;
+   position: relative;
+   top: 22px;
+}
+
  ul {
    padding-inline-start: 0px;
  }
