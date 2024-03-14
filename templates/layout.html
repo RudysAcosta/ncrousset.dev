@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title desde layout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/style.css') }}">
+</head>
+<body>
+    <header>
+        
+       <nav>
+           <ul>
+               <li><a href="{{ url_for('index') }}">Home</a></li>
+               <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+               <li><a href="{{ url_for('index') }}">What I Do</a></li>
+               <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+               <li><a href="{{ url_for('index') }}">Projects</a></li>
+               <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+               <li><a href="{{ url_for('index') }}">Blog</a></li>
+               <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+               <li><a href="{{ url_for('index') }}">Cv</a></li>
+           </ul>
+         </nav>
+    </header>
+
+    <main>
+        {% block content %}
+       
+        {% endblock %}
+    </main>
+
+    <footer>
+        <ul>
+            <li><a href="{{ url_for('index') }}">GitHub</a></li>
+            <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+            <li><a href="{{ url_for('index') }}">Linkedin</a></li>
+            <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+            <li><a href="{{ url_for('index') }}">Youtube</a></li>
+            <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+            <li><a href="{{ url_for('index') }}">Twitch</a></li>
+            <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+            <li><a href="{{ url_for('index') }}">Books</a></li>
+            <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+            <li><a href="{{ url_for('index') }}">Tools</a></li>
+        </ul>
+
+        All content licensed <a href="" class="my-link">CC BY-SA 4.0</a> | The website is open source, you can find the code on GitHub
+    </footer>
+
+    <!-- Aquí puedes incluir tus archivos JavaScript -->
+</body>
+</html>
