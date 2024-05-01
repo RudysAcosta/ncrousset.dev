@@ -6,48 +6,50 @@
 
 <pre><code class="language-python">
 class Father:
-pass
+    pass
 
 class Mother:
-pass
+    pass
 
 class Me(Father, Mother):
-pass
+    pass
 </code></pre>
 
 <p>This would be impossible to represent without multiple inheritance. Well, not so impossible; in PHP, we can use Traits, but "Mother" would not be a model of my mother, but rather the model of the things I want to inherit from her, the same for my father, more like horizontal composition. For example:</p>
 
-<pre><code class="language-php">
+<pre><code class="language-phpdoc">
+
 // Define the Mother trait
 trait MotherTrait {
-public function motherMethod() {
-    echo "Mother's method ";
-}
+    public function motherMethod() {
+        echo "Mother's method ";
+    }
 }
 
 // Define the class Mother that uses the MotherTrait trait
 class Mother {
-use MotherTrait;
+    use MotherTrait;
 }
 
 // Define the Father trait
 trait FatherTrait {
-public function fatherMethod() {
-    echo "Father's method ";
-}
+    public function fatherMethod() {
+        echo "Father's method ";    
+    }
 }
 
 // Define the class Mother that uses the MotherTrait trait
 class Father {
-use FatherTrait;
+    use FatherTrait;
 }
 
 // Me class that inherits from Mother and uses the FatherTrait trait
 class Me extends Mother {
-use FatherTrait, FatherTrait;
+    use FatherTrait, FatherTrait;
 
-public function myMethod() {
-    echo "My method";
+    public function myMethod() {
+        echo "My method";
+    }
 }
 </code></pre>
 
@@ -71,7 +73,7 @@ def fly(self):
 
 # Define a class that inherits from both base classes
 class FlyingFish(Aquatic, Flying):
-pass
+    pass
 
 # Create an instance of the class and call the inherited methods
 fish = FlyingFish()
@@ -93,27 +95,27 @@ fish.fly()   # Output: "Flying..."
 
 <pre><code class="language-python">
 class Animal:
-pass
+    pass
 
 # Define a base class for aquatic animals
 class Aquatic(Animal):
-def Dream(self):
-    print("I would like to be aquamen.")
+    def Dream(self):
+        print("I would like to be aquamen.")
 
-def swim(self):
-    print("Swimming...")
+    def swim(self):
+        print("Swimming...")
 
 # Define a base class for flying animals
 class Flying(Animal):
-def Dream(self):
-    print("I would like to be hawkman.")
+    def Dream(self):
+        print("I would like to be hawkman.")
 
-def fly(self):
-    print("Flying...")
+    def fly(self):
+        print("Flying...")
 
 # Define a class that inherits from both base classes
 class FlyingFish(Aquatic, Flying):
-pass
+    pass
 </code></pre>
 
 <h2>MRO</h2>
@@ -122,6 +124,8 @@ pass
 
 <p>Each class has an <code>__mro__</code> attribute that contains the superclasses in the MRO. Similarly, <code>super()</code> uses the MRO.</p>
 
-<pre><code class="language-python">
-    print(FlyingFish.__mro__)    
-    </code></pre>
+<pre>
+<code class="language-python">
+print(FlyingFish.__mro__)    
+</code>
+</pre>
