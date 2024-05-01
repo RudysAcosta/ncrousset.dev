@@ -1,0 +1,127 @@
+<h2>Multiple Inheritance and Diamond Problem</h2>
+
+<p>We all know what single inheritance is, especially if we come from PHP, but when we talk about multiple inheritance, we wonder: what exactly is it? But if we extrapolate it to real life, it makes more sense; for example, we inherit attributes from both our mother and our father, and our mother and father have nothing in common. An example:</p>
+
+<img src="{{ url_for('static', filename='img/class_diagram.png') }}" alt="Problem diagram">
+
+<pre><code class="language-python">
+class Father:
+pass
+
+class Mother:
+pass
+
+class Me(Father, Mother):
+pass
+</code></pre>
+
+<p>This would be impossible to represent without multiple inheritance. Well, not so impossible; in PHP, we can use Traits, but "Mother" would not be a model of my mother, but rather the model of the things I want to inherit from her, the same for my father, more like horizontal composition. For example:</p>
+
+<pre><code class="language-php">
+// Define the Mother trait
+trait MotherTrait {
+public function motherMethod() {
+    echo "Mother's method ";
+}
+}
+
+// Define the class Mother that uses the MotherTrait trait
+class Mother {
+use MotherTrait;
+}
+
+// Define the Father trait
+trait FatherTrait {
+public function fatherMethod() {
+    echo "Father's method ";
+}
+}
+
+// Define the class Mother that uses the MotherTrait trait
+class Father {
+use FatherTrait;
+}
+
+// Me class that inherits from Mother and uses the FatherTrait trait
+class Me extends Mother {
+use FatherTrait, FatherTrait;
+
+public function myMethod() {
+    echo "My method";
+}
+</code></pre>
+
+<p>See the difference when we have a language that supports multiple inheritance. For example, in Python, we define the classes Father, Mother, and Me inheriting from them, while in PHP, to have a similar behavior, I create a TraitMother that uses a Mother class, a TraitFather that uses a Father class, and the Me class that uses both TraitMother and TraitFather.</p>
+
+<p>We can create another example with aquatic animals and birds; there may be an animal that has both aquatic and bird characteristics. For example:</p>
+
+<pre><code class="language-python">
+class Animal:
+pass
+
+# Define a base class for aquatic animals
+class Aquatic(Animal):
+def swim(self):
+    print("Swimming...")
+
+# Define a base class for flying animals
+class Flying(Animal):
+def fly(self):
+    print("Flying...")
+
+# Define a class that inherits from both base classes
+class FlyingFish(Aquatic, Flying):
+pass
+
+# Create an instance of the class and call the inherited methods
+fish = FlyingFish()
+fish.swim()  # Output: "Swimming..."
+fish.fly()   # Output: "Flying..."
+</code></pre>
+
+<p>In this example, the FlyingFish() class inherits from both Aquatic and Flying.</p>
+
+<h2>The Diamond Problem</h2>
+
+<p>But not everything is rosy; in single inheritance, we know the hierarchy. We can even access and override methods of our parent class, but this gets complicated in multiple inheritance. This is called the diamond problem or "Deadly Diamond of Death"; this is an ambiguity that arises in the case of multiple inheritance. Let's create a diagram to understand it better.</p>
+
+<img src="{{ url_for('static', filename='img/diamond_problem.png') }}" alt="diamond_problem">
+
+<p>So, we have a hierarchy of classes with one superclass, two classes inheriting from it, and one class having those two classes as parents; as you can see, this scheme forms a diamond.</p>
+
+<p>But if we add the same method to the Flying and Aquatic classes, then the question would be: if we create an instance of FlyingFish, which of these methods do we call? Here lies the problem: how to choose a method if both have the same hierarchy.</p>
+
+<pre><code class="language-python">
+class Animal:
+pass
+
+# Define a base class for aquatic animals
+class Aquatic(Animal):
+def Dream(self):
+    print("I would like to be aquamen.")
+
+def swim(self):
+    print("Swimming...")
+
+# Define a base class for flying animals
+class Flying(Animal):
+def Dream(self):
+    print("I would like to be hawkman.")
+
+def fly(self):
+    print("Flying...")
+
+# Define a class that inherits from both base classes
+class FlyingFish(Aquatic, Flying):
+pass
+</code></pre>
+
+<h2>MRO</h2>
+
+<p>In Python, this is solved using the C3 linearization algorithm, which calculates the method resolution order (MRO). MRO tells us how the hierarchy of particular classes looks linearly and how we should navigate through this hierarchy. Two basic rules are: subclass precedes superclass, and superclass are placed in the order they were listed.</p>
+
+<p>Each class has an <code>__mro__</code> attribute that contains the superclasses in the MRO. Similarly, <code>super()</code> uses the MRO.</p>
+
+<pre><code class="language-python">
+    print(FlyingFish.__mro__)    
+    </code></pre>

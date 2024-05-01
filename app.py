@@ -18,5 +18,10 @@ def projects():
 def blog():
     return render_template('/pages/blog.html')
 
+@app.route('/blog/<string:alticle>')
+def blog_with_alticle(alticle):
+    return render_template('/pages/blog.html', context=alticle)
+
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000, debug=True)

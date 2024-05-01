@@ -2,6 +2,23 @@
 
 {% block content %}
     <div>
-        <h1>Blog page</h1>
+        <h1>Blog</h1>
+
+        
+
+
+        {% if context %}
+        {% include 'blog/midp.html' %}
+        {% else: %}
+        <ul>
+            <li>
+                <a href="/blog/multiple_inheritance">Multiple Inheritance and Diamond Problem.</a>
+            </li>
+        </ul>
+        {% endif %}
+
+
+        
+
     </div>
 {% endblock %}
