@@ -18,6 +18,11 @@ h1 {
    color: darkorange;
 }
 
+h2 {
+   color: #5386E4;
+   font-size: 2rem;
+}
+
 footer {
    flex-shrink: 0; 
 }
