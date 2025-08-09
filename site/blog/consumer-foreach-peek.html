@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ncrousset.dev</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+</head>
+
+<body>
+     <header>
+       <nav>
+           <ul>
+               <li><a href="/index.html">Home</a></li>
+                 <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+               <li><a href="/blog/">Blog</a></li>
+                <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+               <li><a href="/projects.html">Projects</a></li>
+           </ul>
+         </nav>
+    </header>
+
+  <main class="container">
+     <article>
+      <h1>Consumer&lt;T&gt;, ForEach, Peek</h1>
+
+      <p>
+        In Java, <code>Consumer&lt;T&gt;</code> is a functional interface that represents an operation that takes a single argument but does not return a result.
+        It belongs to the <code>java.util.function</code> package (introduced in Java 8). It is also “functional” because it has only one abstract method.
+      </p>
+
+      <pre><code class="language-java">void accept(T t);</code></pre>
+
+      <h3>What is it for?</h3>
+      <p>It is used to perform actions on a value without returning anything.</p>
+      <ul>
+        <li>Print elements of a list.</li>
+        <li>Save an object to a database.</li>
+        <li>Modify an internal structure.</li>
+        <li>Send data to an API.</li>
+      </ul>
+
+      <h3>Basic example</h3>
+      <pre><code class="language-java">import java.util.function.Consumer;
+
+public class ConsumerExample {
+    public static void main(String[] args) {
+
+        Consumer&lt;String&gt; consumer = (s) -&gt; {
+            System.out.println(s);
+        };
+
+        consumer.accept("These are the ... of King Kong");
+    }
+}</code></pre>
+
+      <p>A consumer can be created in different ways; we can shorten it even more:</p>
+
+      <pre><code class="language-java">Consumer&lt;String&gt; consumer = s -&gt; System.out.println(s);
+// OR method reference
+Consumer&lt;String&gt; consumer = System.out::println;</code></pre>
+
+      <h3>Real usage with lists</h3>
+      <pre><code class="language-java">import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class UserList {
+    public static void main(String[] args) {
+        List&lt;String&gt; names = Arrays.asList("Anna", "Luis", "Carlos");
+
+        // Using explicit Consumer
+        Consumer&lt;String&gt; printName = name -&gt; System.out.println("Hello " + name);
+        names.forEach(printName);
+
+        // Or directly with lambda
+        names.forEach(name -&gt; System.out.println("Hello " + name));
+    }
+}</code></pre>
+
+      <h3>forEach()</h3>
+      <p>
+        In the example above we use the <code>forEach</code> method. This is defined in the <em>Iterable</em> interface and also in streams:
+      </p>
+
+      <pre><code class="language-java">void forEach(Consumer&lt;? super T&gt; action);</code></pre>
+
+      <h3>How it works:</h3>
+      <ul>
+        <li>Takes a <code>Consumer</code> — that is the <code>action</code> parameter.</li>
+        <li>Applies that <code>Consumer</code> to each element in the collection or stream.</li>
+        <li>Returns nothing — only performs the action on each element.</li>
+      </ul>
+
+      <h3>How it works internally</h3>
+      <p>When you call:</p>
+
+      <pre><code class="language-java">list.forEach(element -&gt; System.out.println(element));</code></pre>
+
+      <p>Internally it is similar to:</p>
+
+      <pre><code class="language-java">for (T element : list) {
+    action.accept(element);
+}</code></pre>
+
+      <p>Where <code>action</code> is the <code>Consumer</code> you passed.</p>
+
+      <h3>forEach in collections vs streams</h3>
+
+      <p><strong>forEach in collections</strong> is defined by the <em>Iterable</em> interface. It iterates over elements in the order returned by the collection (normally insertion order) and does not change the order even if the collection is modified later.</p>
+
+      <pre><code class="language-java">List&lt;String&gt; list = Arrays.asList("A", "B", "C");
+list.forEach(System.out::println);
+
+// Output:
+// A
+// B
+// C</code></pre>
+
+      <p>
+        <em>forEach</em> in streams can be ordered or unordered. If it is a sequential and ordered stream
+        (like one obtained from a <code>List</code>), <em>forEach</em> respects encounter order. In a parallel stream
+        (<code>parallelStream()</code>), <em>forEach</em> does not guarantee order. To preserve order in a parallel stream, use <code>forEachOrdered()</code>.
+      </p>
+
+      <pre><code class="language-java">List&lt;String&gt; list = Arrays.asList("A", "B", "C", "D");
+
+System.out.println("Parallel forEach:");
+list.parallelStream().forEach(System.out::println);
+
+System.out.println("Parallel forEachOrdered:");
+list.parallelStream().forEachOrdered(System.out::println);
+
+// Parallel forEach:
+// C
+// A
+// D
+// B
+
+// Parallel forEachOrdered:
+// A
+// B
+// C
+// D</code></pre>
+
+      <h3>Advantage of using parallelStream()</h3>
+
+      <p>A sequential stream (<code>stream()</code>) processes elements one by one in a single thread.</p>
+      <p>
+        A parallel stream (<code>parallelStream()</code>) splits the dataset into multiple chunks and processes them in multiple threads using the common <code>ForkJoinPool</code> by default. The result is then combined automatically.
+      </p>
+
+      <pre><code class="language-java">import java.util.*;
+import java.util.stream.IntStream;
+
+public class ParallelStreamExample {
+    public static void main(String[] args) {
+        List&lt;Integer&gt; numbers = IntStream.rangeClosed(1, 10).boxed().toList();
+
+        System.out.println("Sequential:");
+        numbers.stream()
+               .forEach(n -&gt; System.out.println(Thread.currentThread().getName() + " - " + n));
+
+        System.out.println("\nParallel:");
+        numbers.parallelStream()
+               .forEach(n -&gt; System.out.println(Thread.currentThread().getName() + " - " + n));
+    }
+}</code></pre>
+
+      <h3>Advantages</h3>
+      <ul>
+        <li><strong>Better performance</strong> for large collections (thousands/millions of elements).</li>
+        <li>Ideal for independent and heavy tasks (data processing, complex calculations, analysis of large lists).</li>
+        <li>Leverages <strong>multiple CPU cores</strong> without you having to manage threads manually.</li>
+      </ul>
+
+      <h3>When <em>NOT</em> to use it</h3>
+      <ul>
+        <li>For small lists (splitting and coordination costs outweigh benefits).</li>
+        <li>If output order is important (unless you use <code>forEachOrdered()</code>).</li>
+        <li>If operations are not thread-safe or depend on mutable shared state.</li>
+        <li>On systems with few CPUs (little or no performance gain).</li>
+      </ul>
+
+      <h2>peek()</h2>
+
+      <p>
+        Just like <code>forEach</code>, <code>peek()</code> is an intermediate operation that takes a
+        <code>Consumer&lt;? super T&gt;</code> and returns the same <em>Stream</em> after performing the action on each element.
+      </p>
+
+      <pre><code class="language-java">Stream&lt;T&gt; peek(Consumer&lt;? super T&gt; action)</code></pre>
+
+      <p>
+        It does not consume the <em>Stream</em>, unlike <code>forEach()</code>, which is terminal. It is mainly used for
+        debugging or performing secondary actions while the pipeline flows.
+      </p>
+
+      <pre><code class="language-java">import java.util.stream.Stream;
+
+public class PeekExample {
+    public static void main(String[] args) {
+        Stream.of("Java", "Python", "Go")
+              .peek(lang -&gt; System.out.println("Before map: " + lang))
+              .map(String::toUpperCase)
+              .peek(lang -&gt; System.out.println("After map: " + lang))
+              .forEach(System.out::println);
+    }
+}</code></pre>
+
+      <h3>Why doesn’t it work alone?</h3>
+
+      <pre><code class="language-java">Stream.of("A", "B", "C")
+      .peek(System.out::println);
+// Prints nothing</code></pre>
+
+      <p class="note">
+        It prints nothing because <code>peek</code> requires a terminal operation (<code>forEach</code>, <code>collect</code>,
+        <code>reduce</code>, etc.) for the <em>Stream</em> to execute. This is due to the lazy evaluation of Streams.
+      </p>
+
+      <pre><code class="language-java">import java.util.stream.Stream;
+
+public class Main {
+    public static void main(String[] args) {
+        Stream.of("A", "B", "C")
+              .peek(s -&gt; System.out.println("Peek: " + s))
+              .forEach(System.out::println); // terminal op
+    }
+}
+
+// Output:
+// Peek: A
+// A
+// Peek: B
+// B
+// Peek: C
+// C</code></pre>
+    </article>
+    
+  </main>
+
+  <footer>
+        <ul>
+            <li><a href="https://github.com/RudysAcosta" target="_blank">GitHub</a></li>
+            <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+            <li><a href="https://www.linkedin.com/in/rudys-acosta/" target="_blank">Linkedin</a></li>
+        </ul>
+
+        All content licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" class="my-link">CC BY-SA 4.0</a> | The website is open source, you can find the code on 
+        <a href="https://github.com/RudysAcosta/ncrousset.dev" target="_blank" class="my-link"> GitHub</a>
+    </footer>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>

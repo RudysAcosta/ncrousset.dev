@@ -1,0 +1,121 @@
+ body {
+   background-color: #e1fff1;
+   font-family: 'Dosis', sans-serif;
+   font-size: 1.5rem;
+   line-height: 2;
+   max-width: 1024px;
+   margin: 100px;
+   min-height: 75vh;
+   display: flex;
+   flex-direction: column;
+ }
+
+main {
+   flex: 1 0 auto;  
+}
+
+h1 {
+   color: darkorange;
+   font-size: 2rem;
+}
+
+h2 {
+   color: #5386E4;
+   font-size: 2rem;
+}
+
+h3 {
+    color: #5386E4;
+    font-size: 1.6rem;
+}
+
+footer {
+   flex-shrink: 0; 
+}
+
+.emojin{
+   width: 75px;
+   position: relative;
+   top: 22px;
+}
+
+ ul {
+   padding-inline-start: 0px;
+ }
+
+header nav ul {
+   display: flex;
+   list-style: none;   
+}
+
+header nav ul li {
+   margin-right: 10px;
+}
+
+header nav ul li a {
+   color: #5386E4;
+   font-weight: 600;
+   cursor: pointer;
+   text-decoration: underline;
+}
+
+footer ul {
+   display: flex;
+   list-style: none;
+}
+
+footer ul li a {
+   color: #5386E4;
+   font-size: 1.3rem;
+   font-weight: 600;
+   cursor: pointer;
+   text-decoration: underline;
+}  
+
+.my-link {
+   color: #5386E4;
+   font-size: 1.4rem;
+   font-weight: 600;
+   cursor: pointer;
+   text-decoration: underline;
+}
+
+.btn-cv {
+   background-color: #5386E4;
+   color: white;
+   padding: 10px 20px;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   font-size: 1.3rem;
+   font-weight: 600;
+}
+
+pre { background: #0f172a; color: #e5e7eb; padding: 1rem; overflow: auto; border-radius: 10px; }
+code { font-size: 1.2rem; font-weight: 600; color:rgb(0, 0, 0) ; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+.note { color: #475569; font-style: italic; font-size: 1.2rem; }
+ul { padding-left: 1.2rem; }
+hr { border: none; border-top: 1px solid #e5e7eb; margin: 2rem 0; }
+
+ .post {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .post-title {
+      font-size: 1.5rem;
+      margin: 0 0 0.3rem 0;
+    }
+
+    .post-title a {
+      text-decoration: none;
+      color: var(--color-link);
+      transition: color 0.2s;
+    }
+
+    .post-title a:hover {
+      color: var(--color-link-hover);
+    }
+
+  
