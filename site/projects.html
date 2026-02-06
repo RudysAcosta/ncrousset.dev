@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ncrousset.dev</title>
+    <title>Projects | ncrousset.dev</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet">
@@ -17,30 +17,44 @@
        <nav>
            <ul>
                <li><a href="/index.html">Home</a></li>
-                 <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+               <li class="hidden lg:block">&nbsp;•&nbsp;</li>
                <li><a href="/blog/">Blog</a></li>
-                <li class="hidden lg:block">&nbsp;•&nbsp;</li>
+               <li class="hidden lg:block">&nbsp;•&nbsp;</li>
                <li><a href="/projects.html">Projects</a></li>
            </ul>
          </nav>
     </header>
 
-
   <main class="container">
-    <h1>All Blog Posts</h1>
+    <section class="post">
+      <h1>Projects</h1>
+      <p>
+        A selection of personal projects and tasks I want to document. This space is more for me: a record of the kinds
+        of problems I like to solve and the stack I use to do it.
+      </p>
+    </section>
 
-    <div class="post">
-      <h2 class="post-title"><a href="/blog/consumer-foreach-peek.html">Understanding Java Consumer&lt;T&gt;, forEach, and peek()</a></h2>
-      <p class="post-desc">A practical guide to using Consumer&lt;T&gt; with collections and streams in Java, including real-world examples.</p>
-    </div>
+    <section>
 
+      <article class="post">
+        <h3>Chatbot CSS121</h3>
+        <p>
+         This project is a simple chatbot built in Python for a university assignment at Essex County College (CSC 121). The chatbot reads predefined responses from a JSON file and exposes them through a Flask API. A small Vue frontend is included to consume the API.
+        </p>
+        <p><strong>Stack:</strong> Python, Flask, Vue.js</p>
+        <p>
+          <a href="https://chatbot.ncrousset.dev/" class="my-link" target="_blank">Demo</a> |
+          <a href="https://github.com/RudysAcosta/chatbot-css121" class="my-link" target="_blank">Repository</a>
+        </p>
+      </article>
+    </section>
   </main>
 
   <footer>
         <ul>
             <li><a href="https://github.com/RudysAcosta" target="_blank">GitHub</a></li>
             <li class="hidden lg:block">&nbsp;•&nbsp;</li>
-            <li><a href="https://www.linkedin.com/in/rudys-acosta/" target="_blank">Linkedin</a></li>
+            <li><a href="https://www.linkedin.com/in/rudys-acosta/" target="_blank">LinkedIn</a></li>
         </ul>
 
         All content licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" class="my-link">CC BY-SA 4.0</a> | The website is open source, you can find the code on 
@@ -48,6 +62,5 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
 </html>
